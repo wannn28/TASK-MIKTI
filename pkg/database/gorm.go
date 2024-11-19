@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"gorm.io/driver/mysql"
-	"github.com/mhusainh/MIKTI-Task/config"
+	"github.com/wannn28/TASK-MIKTI/config"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
 )
