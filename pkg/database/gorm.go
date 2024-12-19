@@ -3,8 +3,8 @@ package database
 import (
 	"fmt"
 
-	"gorm.io/driver/mysql"
 	"github.com/wannn28/TASK-MIKTI/config"
+	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
 )

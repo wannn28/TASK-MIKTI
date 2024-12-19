@@ -1,0 +1,11 @@
+BEGIN;
+
+CREATE TABLE IF NOT EXISTS movies (
+    id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    title VARCHAR(255) NOT NULL,
+    year INTEGER NOT NULL,
+    director VARCHAR(255) NOT NULL,
+    description TEXT NULL
+);
+
+COMMIT;

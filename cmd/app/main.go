@@ -18,29 +18,15 @@ func main() {
 	// load configuration via env
 	cfg, err := config.NewConfig(".env")
 	checkError(err)
-
-	_, err = database.InitDatabase(cfg.MySQLConfig)
-	fmt.Println("Sudah masuk ke database")
 	// init  & start database
-
-	publicRoutes := builder.BuildPublicRoutes()
-	privateRoutes := builder.BuildPrivateRoutes()
-	srv := server.NewServer(publicRoutes, privateRoutes)
+	db, err := database.InitDatabase(cfg.MySQLConfig)
+	// RBAC
+	publicRoutes := builder.BuildPublicRoutes(cfg, db)
+	privateRoutes := builder.BuildPrivateRoutes(cfg, db)
+	// init & start server
+	srv := server.NewServer(cfg, publicRoutes, privateRoutes)
 	runServer(srv, cfg.PORT)
 	waitForShutdown(srv)
-	// init & start server
-}
-func checkError(err error) {
-	if err != nil {
-		panic(err)
-	}
-}
-
-func runServer(srv *server.Server, port string) {
-	go func() {
-		err := srv.Start(fmt.Sprintf(":%s", port))
-		log.Fatal(err)
-	}()
 }
 
 func waitForShutdown(srv *server.Server) {
@@ -57,4 +43,19 @@ func waitForShutdown(srv *server.Server) {
 			srv.Logger.Fatal(err)
 		}
 	}()
+}
+
+func runServer(srv *server.Server, port string) {
+	go func() {
+		err := srv.Start(fmt.Sprintf(":%s", port))
+		if err != nil {
+			log.Fatal(err)
+		}
+	}()
+}
+
+func checkError(err error) {
+	if err != nil {
+		panic(err)
+	}
 }

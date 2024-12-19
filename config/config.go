@@ -9,6 +9,15 @@ type Config struct {
 	ENV         string      `env:"ENV" envDefault:"dev"`
 	PORT        string      `env:"PORT" envDefault:"8080"`
 	MySQLConfig MySQLConfig `envPrefix:"MYSQL_"`
+	JWTConfig   JWTConfig   `envPrefix:"JWT_"`
+	SMTPConfig  SMTPConfig  `envPrefix:"SMTP_"`
+}
+
+type SMTPConfig struct {
+	Host     string `env:"HOST" envDefault:"localhost"`
+	Port     int    `env:"PORT" envDefault:587`
+	User     string `env:"USERNAME"`
+	Password string `env:"PASSWORD"`
 }
 
 type MySQLConfig struct {
@@ -17,6 +26,10 @@ type MySQLConfig struct {
 	User     string `env:"USER" envDefault:"root"`
 	Password string `env:"PASSWORD"`
 	Database string `env:"DATABASE"`
+}
+
+type JWTConfig struct {
+	SecretKey string `env:"SECRET_KEY"`
 }
 
 func NewConfig(path string) (*Config, error) {
